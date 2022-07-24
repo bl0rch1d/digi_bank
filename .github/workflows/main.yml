@@ -1,5 +1,7 @@
-name: Base
+name: Main
 on: push
+env:
+  RAILS_ENV: test
 
 jobs:
   verify:
@@ -11,7 +13,7 @@ jobs:
         env:
           POSTGRES_USER: digi_bank
           POSTGRES_PASSWORD: digi_bank
-          POSTGRES_DB: digi_bank_development
+          POSTGRES_DB: digi_bank_test
           POSTGRES_PORT: 5432
         ports: ["5432:5432"]
         options: >-
@@ -39,20 +41,19 @@ jobs:
 
       - name: Configure test database
         env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_MASTER_KEY }}
           DB_USERNAME: digi_bank
           DB_PASSWORD: digi_bank
         run: |
-          bin/rails db:create
-          bin/rails db:migrate
+          bundle exec rake db:create
+          bundle exec rake db:migrate
 
       - name: Run linters
         env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_MASTER_KEY }}
           DB_USERNAME: digi_bank
           DB_PASSWORD: digi_bank
         run: |
-          bundle config unset deployment
           bundle exec lefthook run ci_lint
           bundle exec lefthook run ci_security_checks
 
