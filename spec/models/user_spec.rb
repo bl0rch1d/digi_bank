@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -12,7 +14,7 @@
 describe User, type: :model do
   let(:user) { create :user }
 
-  it { expect(subject).to be_a User }
+  it { expect(user).to be_a described_class }
 
   describe 'database table' do
     it { is_expected.to have_db_column(:id).of_type(:integer) }
@@ -23,6 +25,6 @@ describe User, type: :model do
   end
 
   describe 'indexes' do
-    it { should have_db_index(:email).unique }
+    it { is_expected.to have_db_index(:email).unique }
   end
 end
