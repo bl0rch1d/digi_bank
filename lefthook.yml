@@ -1,0 +1,41 @@
+ci_lint:
+  parallel: true
+  commands:
+    rubocop:
+      run: bundle exec rubocop --force-exclusion --display-cop-names --parallel
+
+ci_security_audit:
+  parallel: true
+  commands:
+    bundle_audit:
+      run: bundle exec bundle audit --update
+    brakeman:
+      run: bundle exec brakeman -c config/brakeman.yml --no-pager -q --ensure-latest
+    bundler_leak:
+      run: bundle leak check --update
+
+local_lint:
+  parallel: true
+  commands:
+    1_rubocop:
+      run: bundle exec rubocop -a --force-exclusion --display-cop-names {staged_files} && git add {staged_files}
+
+generators:
+  parallel: true
+  commands:
+    update_model_annotations:
+      run: 'bundle exec annotate --models && git add app/models'
+
+pre-commit:
+  parallel: false
+  commands:
+    1_linters:
+      run: lefthook run local_lint
+    2_generators:
+      run: lefthook run generators
+
+pre-push:
+  parallel: true
+  commands:
+    merge_conflicts:
+      run: if [ $(grep -H -r "<<<<<<< HEAD" . --exclude-dir={.history,.gems,.github,.git,.bundle,tmp,storage,vendor,node_modules,fixtures,coverage} --exclude=lefthook.yml) ]; then exit 1; else exit 0; fi
