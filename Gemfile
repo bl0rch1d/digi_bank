@@ -9,6 +9,8 @@ gem 'rails', '~> 7.0.3', '>= 7.0.3.1'
 
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
+gem 'devise', '~> 4.8', '>= 4.8.1'
+gem 'haml-rails', '~> 2.0'
 gem 'jsbundling-rails'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
@@ -18,8 +20,10 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   gem 'brakeman', '~> 5.2', require: false
   gem 'bundler-audit', '~> 0.9', require: false
+  gem 'bundler-leak', '~> 0.3.0'
   gem 'factory_bot_rails', '~> 6.2', require: false
   gem 'ffaker', '~> 2.21', require: false
+  gem 'lefthook', '~> 1.0', '>= 1.0.5'
   gem 'pry', '~> 0.14'
   gem 'pry-rails', '~> 0.3.9'
   gem 'rubocop', '~> 1.31', require: false
