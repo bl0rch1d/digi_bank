@@ -14,6 +14,8 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'sprockets-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'devise', '~> 4.8', '>= 4.8.1'
+gem "haml-rails", "~> 2.0"
 
 group :development, :test do
   gem 'brakeman', '~> 5.2', require: false
