@@ -21,6 +21,7 @@ group :development, :test do
   gem 'bundler-leak', '~> 0.3.0'
   gem 'factory_bot_rails', '~> 6.2', require: false
   gem 'ffaker', '~> 2.21', require: false
+  gem 'lefthook', '~> 1.0', '>= 1.0.5'
   gem 'pry', '~> 0.14'
   gem 'pry-rails', '~> 0.3.9'
   gem 'rubocop', '~> 1.31', require: false
@@ -28,7 +29,6 @@ group :development, :test do
   gem 'rubocop-performance', '~> 1.14', require: false
   gem 'rubocop-rails', '~> 2.15', require: false
   gem 'rubocop-rspec', '~> 2.12', require: false
-  gem 'lefthook', '~> 1.0', '>= 1.0.5'
 end
 
 group :development do

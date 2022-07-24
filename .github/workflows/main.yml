@@ -1,61 +1,45 @@
 name: Main
-on: push
-env:
-  RAILS_ENV: test
+on: [push]
 
 jobs:
-  verify:
-    name: Build
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run linters
+        run: bundle exec lefthook run ci_lint
+
+      - name: Run security audit
+        run: bundle exec lefthook run ci_security_audit
+
+  test:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:14
+        image: postgres:14-alpine
+        ports:
+          - "5432:5432"
         env:
+          POSTGRES_DB: digi_bank_test
           POSTGRES_USER: digi_bank
           POSTGRES_PASSWORD: digi_bank
-          POSTGRES_DB: digi_bank_test
-          POSTGRES_PORT: 5432
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://digi_bank:digi_bank@localhost:5432/digi_bank_test"
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Configure Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+      - name: Setup
+        uses: ./.github/actions/setup
 
-      - name: Configure Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.15.0
-
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install
-
-      - name: Configure test database
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_MASTER_KEY }}
-          DB_USERNAME: digi_bank
-          DB_PASSWORD: digi_bank
-        run: |
-          bundle exec rake db:create
-          bundle exec rake db:migrate
-
-      - name: Run linters
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_MASTER_KEY }}
-          DB_USERNAME: digi_bank
-          DB_PASSWORD: digi_bank
-        run: |
-          bundle exec lefthook run ci_lint
-          bundle exec lefthook run ci_security_checks
+      - name: Configure database
+        run: bin/rails db:schema:load
 
       - name: Run tests
         env:

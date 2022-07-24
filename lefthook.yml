@@ -4,7 +4,7 @@ ci_lint:
     rubocop:
       run: bundle exec rubocop --force-exclusion --display-cop-names --parallel
 
-ci_security_checks:
+ci_security_audit:
   parallel: true
   commands:
     bundle_audit:

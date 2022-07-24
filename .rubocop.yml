@@ -16,6 +16,7 @@ AllCops:
     - 'tmp/**/*'
     - 'target/**/*'
     - 'config/**/*'
+    - 'vendor/**/*'
 
 Style/Documentation:
   Enabled: false
