@@ -24,6 +24,10 @@ describe User, type: :model do
     it { is_expected.to have_db_column(:updated_at).of_type(:datetime) }
   end
 
+  describe 'associations' do
+    it { is_expected.to have_one(:bank_account).dependent(:destroy) }
+  end
+
   describe 'indexes' do
     it { is_expected.to have_db_index(:email).unique }
   end

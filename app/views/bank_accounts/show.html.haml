@@ -1,46 +1,68 @@
-.bg-success.py-3.bg-opacity-75.border.border-success.border-start-0.rounded-end
-  .container
-    .row
-      .col.text-start
-        %span.btn.btn-outline-dark.disabled.text-black
-          = current_user.email
-      .col.text-end
-        %span
-          = link_to "Log out", destroy_user_session_path(current_user), class: 'text-decoration-none btn btn-outline-dark'
+= render 'bank_accounts/header'
 
 .container.mt-5
   .row
-    .col-6.text-center
+    .col-4.text-center
       %h2
         Balance
       %h4.mt-4
-        12345 USD
+        = @operation_result[:bank_account].usd_balance
       .btn.btn-outline-dark
         send money
-    .col-6.text-center
+    .col-8.text-center
       %h2
         History
       %table.table.table-hover.table-bordered.mt-4
         %thread
           %tr
             %th{scope: "col"}
-              transaction ID
+              ID
             %th{scope: "col"}
-              amount
+              From
             %th{scope: "col"}
-              datetime
+              To
+            %th{scope: "col"}
+              Amount
+            %th{scope: "col"}
+              Balance After Transaction
+            %th{scope: "col"}
+              Sent At
         %tbody.table-group-divider
-          %tr.table-success
-            %th{scope: "row"}
-              12345
-            %th
-              +123 USD
-            %th
-              24.07.22 22:23:23
-          %tr.table-danger
-            %th{scope: "row"}
-              87642
-            %th
-              332 USD
-            %th
-              21.01.22 12:11:00
+          - @operation_result[:money_transactions].each do |money_transaction|
+            %tr{class: "#{money_transaction.bootstrap_row_color_class}"}
+              %th{scope: "row"}
+                = money_transaction.id
+              %th
+                = money_transaction.from_email
+              %th
+                = money_transaction.to_email
+              %th
+                = money_transaction.transfered_amount
+              %th
+                = money_transaction.balance_after_transaction
+              %th
+                = money_transaction.created_at
+
+      .row
+        .col
+          - if @operation_result[:pagy_cursor].prev.present?
+            %a{href: "/?page=#{@operation_result[:pagy_cursor].prev}", class: 'btn btn-outline-dark'}
+              Prev
+          - else
+            %a{href: '#', class: 'disabled btn btn-outline-dark'}
+              Prev
+
+          - @operation_result[:pagy_cursor].pages.times do |page|
+            - if (page + 1) == @operation_result[:pagy_cursor].page
+              %a{href: "/?page=#{page + 1}", class: 'btn btn-outline-dark active'}
+                = page + 1
+            - else
+              %a{href: "/?page=#{page + 1}", class: 'btn btn-outline-dark'}
+                = page + 1
+
+          - if @operation_result[:pagy_cursor].next.present?
+            %a{href: "/?page=#{@operation_result[:pagy_cursor].next}", class: 'btn btn-outline-dark'}
+              Next
+          - else
+            %a{href: '#', class: 'disabled btn btn-outline-dark'}
+              Next

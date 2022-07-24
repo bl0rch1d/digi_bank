@@ -1,0 +1,9 @@
+.bg-success.py-3.bg-opacity-75.border.border-success.border-start-0.rounded-end
+  .container
+    .row
+      .col.text-start
+        %span.btn.btn-outline-dark.disabled.text-black
+          = current_user.email
+      .col.text-end
+        %span
+          = link_to "Log out", destroy_user_session_path, class: 'text-decoration-none btn btn-outline-dark'

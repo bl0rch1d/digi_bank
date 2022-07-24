@@ -14,6 +14,6 @@
 FactoryBot.define do
   factory :user do
     email { FFaker::Internet.email }
-    password { SecureRandom.hex(rand(Devise.password_length)) }
+    password { SecureRandom.hex(Devise.password_length.min) }
   end
 end
