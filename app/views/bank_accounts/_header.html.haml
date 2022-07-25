@@ -6,4 +6,6 @@
           = current_user.email
       .col.text-end
         %span
-          = link_to "Log out", destroy_user_session_path, class: 'text-decoration-none btn btn-outline-dark'
+          = link_to t('bank_account.log_out'), destroy_user_session_path, class: 'text-decoration-none btn btn-outline-dark', id: 'logoutLink'
+- if notice
+  %p.alert.alert-info.text-center= notice

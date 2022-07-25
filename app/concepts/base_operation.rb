@@ -14,7 +14,6 @@ class BaseOperation
 
     def build_ctx(params)
       @ctx = {
-        operation_result: nil,
         exception: nil,
         exception_message: nil,
         **params
@@ -28,9 +27,11 @@ class BaseOperation
 
     def run_operation
       @operation_steps.each { |step| @operation.method(step).call(@ctx, **@ctx) }
-    rescue StandardError => exception
-      @ctx[:exception] = exception
-      @ctx[:exception_message] = exception.message
+    rescue StandardError => e
+      @ctx[:exception]          = e
+      @ctx[:exception_message]  = e.message
+
+      Rails.logger.fatal(e.message)
     end
 
     def build_result
@@ -38,7 +39,6 @@ class BaseOperation
         operation: @operation,
         success?: @ctx[:exception].blank?,
         failure?: @ctx[:exception].present?,
-        errors: @ctx[:errors],
         result: @ctx[:operation_result],
         **@ctx
       }

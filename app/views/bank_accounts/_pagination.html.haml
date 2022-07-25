@@ -1,0 +1,21 @@
+- if @operation_result[:pagy_cursor].prev.present?
+  %a{href: "/?page=#{@operation_result[:pagy_cursor].prev}", class: 'btn btn-outline-dark'}
+    = t('pagination.prev')
+- else
+  %a{href: '#', class: 'disabled btn btn-outline-dark'}
+    = t('pagination.prev')
+
+- @operation_result[:pagy_cursor].pages.times do |page|
+  - if (page + 1) == @operation_result[:pagy_cursor].page
+    %a{href: "/?page=#{page + 1}", class: 'btn btn-outline-dark active'}
+      = page + 1
+  - else
+    %a{href: "/?page=#{page + 1}", class: 'btn btn-outline-dark'}
+      = page + 1
+
+- if @operation_result[:pagy_cursor].next.present?
+  %a{href: "/?page=#{@operation_result[:pagy_cursor].next}", class: 'btn btn-outline-dark'}
+    = t('pagination.next')
+- else
+  %a{href: '#', class: 'disabled btn btn-outline-dark'}
+    = t('pagination.next')

@@ -4,65 +4,10 @@
   .row
     .col-4.text-center
       %h2
-        Balance
+        = t('bank_account.balance')
       %h4.mt-4
         = @operation_result[:bank_account].usd_balance
-      .btn.btn-outline-dark
-        send money
+      %a.btn.btn-outline-dark.mt-2{href: new_money_transaction_path}
+        = t('bank_account.send_money')
     .col-8.text-center
-      %h2
-        History
-      %table.table.table-hover.table-bordered.mt-4
-        %thread
-          %tr
-            %th{scope: "col"}
-              ID
-            %th{scope: "col"}
-              From
-            %th{scope: "col"}
-              To
-            %th{scope: "col"}
-              Amount
-            %th{scope: "col"}
-              Balance After Transaction
-            %th{scope: "col"}
-              Sent At
-        %tbody.table-group-divider
-          - @operation_result[:money_transactions].each do |money_transaction|
-            %tr{class: "#{money_transaction.bootstrap_row_color_class}"}
-              %th{scope: "row"}
-                = money_transaction.id
-              %th
-                = money_transaction.from_email
-              %th
-                = money_transaction.to_email
-              %th
-                = money_transaction.transfered_amount
-              %th
-                = money_transaction.balance_after_transaction
-              %th
-                = money_transaction.created_at
-
-      .row
-        .col
-          - if @operation_result[:pagy_cursor].prev.present?
-            %a{href: "/?page=#{@operation_result[:pagy_cursor].prev}", class: 'btn btn-outline-dark'}
-              Prev
-          - else
-            %a{href: '#', class: 'disabled btn btn-outline-dark'}
-              Prev
-
-          - @operation_result[:pagy_cursor].pages.times do |page|
-            - if (page + 1) == @operation_result[:pagy_cursor].page
-              %a{href: "/?page=#{page + 1}", class: 'btn btn-outline-dark active'}
-                = page + 1
-            - else
-              %a{href: "/?page=#{page + 1}", class: 'btn btn-outline-dark'}
-                = page + 1
-
-          - if @operation_result[:pagy_cursor].next.present?
-            %a{href: "/?page=#{@operation_result[:pagy_cursor].next}", class: 'btn btn-outline-dark'}
-              Next
-          - else
-            %a{href: '#', class: 'disabled btn btn-outline-dark'}
-              Next
+      = render 'bank_accounts/transaction_history'
