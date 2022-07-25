@@ -46,6 +46,4 @@ group :test do
   gem 'rspec-rails', '~> 5.1'
   gem 'shoulda-matchers', '~> 5.1'
   gem 'simplecov', '~> 0.21', require: false
-  gem 'capybara', '~> 3.37', '>= 3.37.1'
-  gem 'selenium-webdriver', '~> 4.3'
 end

@@ -25,7 +25,7 @@ describe BankAccount, type: :model do
     it { is_expected.to belong_to(:user) }
 
     it do
-      is_expected
+      expect(bank_account)
         .to have_many(:sent_transactions)
         .class_name(MoneyTransaction)
         .inverse_of(:sender)
@@ -33,7 +33,7 @@ describe BankAccount, type: :model do
     end
 
     it do
-      is_expected
+      expect(bank_account)
         .to have_many(:receieved_transactions)
         .class_name(MoneyTransaction)
         .inverse_of(:recepient)
