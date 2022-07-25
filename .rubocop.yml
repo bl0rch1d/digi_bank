@@ -23,3 +23,10 @@ Style/Documentation:
 
 Layout/LineLength:
   Max: 120
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: true
+  Max: 5
