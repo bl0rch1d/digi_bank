@@ -13,11 +13,12 @@ gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'draper', '~> 4.0', '>= 4.0.2'
 gem 'haml-rails', '~> 2.0'
 gem 'jsbundling-rails'
+gem 'pagy', '~> 5.10', '>= 5.10.1'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
+gem 'seedbank', '~> 0.5.0'
 gem 'sprockets-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-gem 'pagy', '~> 5.10', '>= 5.10.1'
 
 group :development, :test do
   gem 'brakeman', '~> 5.2', require: false
@@ -37,10 +38,14 @@ end
 
 group :development do
   gem 'annotate', '~> 3.2'
+  gem 'bullet', '~> 7.0', '>= 7.0.2'
 end
 
 group :test do
+  gem 'database_cleaner', '~> 2.0', '>= 2.0.1'
   gem 'rspec-rails', '~> 5.1'
   gem 'shoulda-matchers', '~> 5.1'
   gem 'simplecov', '~> 0.21', require: false
+  gem 'capybara', '~> 3.37', '>= 3.37.1'
+  gem 'selenium-webdriver', '~> 4.3'
 end
