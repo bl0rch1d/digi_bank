@@ -7,12 +7,12 @@ class MoneyTransactionDecorator < Draper::Decorator
     current_user_sender? ? 'table-danger' : 'table-success'
   end
 
-  def from_email
-    current_user_sender? ? 'you' : to.user.email
+  def sender_email
+    current_user_sender? ? I18n.t('bank_account.you') : recepient.user.email
   end
 
-  def to_email
-    current_user_sender? ? from.user.email : 'you'
+  def recepient_email
+    current_user_sender? ? sender.user.email : I18n.t('bank_account.you')
   end
 
   def transfered_amount
@@ -20,7 +20,7 @@ class MoneyTransactionDecorator < Draper::Decorator
   end
 
   def balance_after_transaction
-    value_in_cents = current_user_sender? ? from_amount_after_transaction : to_amount_after_transaction
+    value_in_cents = current_user_sender? ? sender_balance_after_transaction : recepient_balance_after_transaction
 
     "#{in_usd(value_in_cents)}$"
   end
@@ -28,7 +28,7 @@ class MoneyTransactionDecorator < Draper::Decorator
   private
 
   def current_user_sender?
-    from.user.id == context[:current_user_id]
+    sender.user.id == context[:current_user_id]
   end
 
   def in_usd(cents)
