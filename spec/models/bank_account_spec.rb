@@ -13,7 +13,7 @@
 describe BankAccount, type: :model do
   let(:bank_account) { create :bank_account }
 
-  it { expect(subject).to be_a described_class }
+  it { expect(bank_account).to be_a described_class }
 
   describe 'database table' do
     it { is_expected.to have_db_column(:id).of_type(:integer) }
@@ -23,6 +23,22 @@ describe BankAccount, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
+
+    it do
+      is_expected
+        .to have_many(:sent_transactions)
+        .class_name(MoneyTransaction)
+        .inverse_of(:sender)
+        .dependent(:destroy)
+    end
+
+    it do
+      is_expected
+        .to have_many(:receieved_transactions)
+        .class_name(MoneyTransaction)
+        .inverse_of(:recepient)
+        .dependent(:destroy)
+    end
   end
 
   describe 'indexes' do

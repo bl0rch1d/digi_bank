@@ -13,17 +13,17 @@
 class BankAccount < ApplicationRecord
   belongs_to :user
 
-  has_many :send_transactions, class_name: 'MoneyTransaction',
-                               foreign_key: :from_id,
-                               inverse_of: :from,
+  has_many :sent_transactions, class_name: 'MoneyTransaction',
+                               foreign_key: :sender_id,
+                               inverse_of: :sender,
                                dependent: :destroy
 
-  has_many :receieve_transactions, class_name: 'MoneyTransaction',
-                                   foreign_key: :to_id,
-                                   inverse_of: :to,
-                                   dependent: :destroy
+  has_many :receieved_transactions, class_name: 'MoneyTransaction',
+                                    foreign_key: :recepient_id,
+                                    inverse_of: :recepient,
+                                    dependent: :destroy
 
   def all_money_transactions
-    send_transactions.or(receieve_transactions)
+    sent_transactions.or(receieved_transactions).order(created_at: :desc)
   end
 end

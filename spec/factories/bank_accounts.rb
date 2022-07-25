@@ -12,7 +12,7 @@
 #
 FactoryBot.define do
   factory :bank_account do
-    balance { 10_000 * 100 }
+    balance { User::STARTER_BALANCE }
     association :user
   end
 end

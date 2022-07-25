@@ -23,15 +23,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_24_181020) do
   end
 
   create_table "money_transactions", force: :cascade do |t|
-    t.bigint "from_id", null: false
-    t.bigint "to_id", null: false
+    t.bigint "sender_id", null: false
+    t.bigint "recepient_id", null: false
     t.bigint "amount", null: false
-    t.bigint "from_amount_after_transaction", null: false
-    t.bigint "to_amount_after_transaction", null: false
+    t.bigint "sender_balance_after_transaction", null: false
+    t.bigint "recepient_balance_after_transaction", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["from_id"], name: "index_money_transactions_on_from_id"
-    t.index ["to_id"], name: "index_money_transactions_on_to_id"
+    t.index ["recepient_id"], name: "index_money_transactions_on_recepient_id"
+    t.index ["sender_id"], name: "index_money_transactions_on_sender_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,6 +44,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_24_181020) do
   end
 
   add_foreign_key "bank_accounts", "users"
-  add_foreign_key "money_transactions", "bank_accounts", column: "from_id"
-  add_foreign_key "money_transactions", "bank_accounts", column: "to_id"
+  add_foreign_key "money_transactions", "bank_accounts", column: "recepient_id"
+  add_foreign_key "money_transactions", "bank_accounts", column: "sender_id"
 end

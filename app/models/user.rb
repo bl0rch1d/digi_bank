@@ -12,7 +12,7 @@
 #  updated_at          :datetime         not null
 #
 class User < ApplicationRecord
-  STARTER_BALANCE = 10_000_00
+  STARTER_BALANCE = 1_000_000_00
   EMAIL_REGEX = /\A[^@\s]+@[^@\s]+\z/
 
   devise :database_authenticatable, :registerable, :rememberable, :validatable
