@@ -51,7 +51,7 @@ describe MoneyTransactionDecorator do
 
   describe '#recepient_email' do
     context 'when current user is sender' do
-      let(:expected_result) { sender.email }
+      let(:expected_result) { recepient.email }
 
       it 'returns decorated balance' do
         expect(money_transaction.recepient_email).to eq(expected_result)

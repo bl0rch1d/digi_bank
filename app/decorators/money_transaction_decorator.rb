@@ -12,7 +12,7 @@ class MoneyTransactionDecorator < Draper::Decorator
   end
 
   def recepient_email
-    current_user_sender? ? sender.user.email : I18n.t('bank_account.you')
+    current_user_sender? ? recepient.user.email : I18n.t('bank_account.you')
   end
 
   def transfered_amount
