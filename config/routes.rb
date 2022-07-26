@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  devise_for(:users, only: %i[sessions registrations])
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :money_transactions, only: %i[new create]
+
+  root 'bank_accounts#show'
 end

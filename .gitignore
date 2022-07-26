@@ -28,3 +28,15 @@
 !/app/assets/builds/.keep
 
 /node_modules
+.env
+/target/
+
+/config/credentials/development.key
+
+/config/credentials/test.key
+
+/config/credentials/production.key
+
+/coverage/
+
+.DS_Store

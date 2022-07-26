@@ -1,0 +1,29 @@
+= render 'bank_accounts/header'
+
+.container.text-center
+  .row.mt-5.justify-content-md-center
+    .col-md-3
+      %h2= t('money_transaction.form_title')
+      = form_with(scope: :money_transaction, url: money_transactions_path) do |f|
+        .field
+          = f.label :recepient_email, class: 'col-form-label'
+          - if !@contract.errors.messages.include?(:recepient_email)
+            = f.email_field :recepient_email, autofocus: true, class: 'form-control', value: @contract.recepient_email
+          - else
+            = f.email_field :recepient_email, autofocus: true, class: 'form-control is-invalid', value: @contract.recepient_email
+            .invalid-feedback
+              - @contract.errors.messages[:recepient_email].each do |error|
+                = "#{error}; "
+        .field
+          = f.label :amount_in_cents, class: 'col-form-label'
+          - if !@contract.errors.messages.include?(:amount_in_cents)
+            = f.text_field :amount_in_cents, autofocus: true, class: 'form-control', value: @contract.amount_in_cents
+          - else
+            = f.text_field :amount_in_cents, autofocus: true, class: 'form-control is-invalid', value: @contract.amount_in_cents
+            .invalid-feedback
+              - @contract.errors.messages[:amount_in_cents].each do |error|
+                = "#{error}; "
+        .actions.mt-3
+          = f.submit t('money_transaction.send'), class: 'btn btn-outline-dark px-4 me-1'
+          %a.btn.btn-outline-dark.px-4.ms-1{href: root_path(@current_user)}
+            = t('money_transaction.cancel')

@@ -1,0 +1,13 @@
+.container.text-center
+  .row.mt-5.justify-content-md-center
+    .col-md-4
+      %h2 Digi Bank
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .field
+          = f.label :email, class: 'col-form-label'
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+        .field
+          = f.label :password, class: 'col-form-label'
+          = f.password_field :password, autocomplete: "current-password", class: 'form-control'
+        .actions.mt-3
+          = f.submit t('bank_account.log_in'), class: 'btn btn-outline-primary px-5'

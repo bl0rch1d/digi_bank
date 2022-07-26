@@ -1,0 +1,50 @@
+name: Main
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run linters
+        run: bundle exec lefthook run lint
+
+      - name: Run security audit
+        run: bundle exec lefthook run security_audit
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: digi_bank_test
+          POSTGRES_USER: digi_bank
+          POSTGRES_PASSWORD: digi_bank
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://digi_bank:digi_bank@localhost:5432/digi_bank_test"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Configure database
+        run: bin/rails db:schema:load
+
+      - name: Run tests
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_TEST_MASTER_KEY }}
+          DB_USERNAME: digi_bank
+          DB_PASSWORD: digi_bank
+          CI: true
+        run: bundle exec rspec
