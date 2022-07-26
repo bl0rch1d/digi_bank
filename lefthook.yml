@@ -1,10 +1,10 @@
-ci_lint:
+lint:
   parallel: true
   commands:
     rubocop:
       run: bundle exec rubocop --force-exclusion --display-cop-names --parallel
 
-ci_security_audit:
+security_audit:
   parallel: true
   commands:
     bundle_audit:
@@ -13,12 +13,6 @@ ci_security_audit:
       run: bundle exec brakeman -c config/brakeman.yml --no-pager -q --ensure-latest
     bundler_leak:
       run: bundle leak check --update
-
-local_lint:
-  parallel: true
-  commands:
-    1_rubocop:
-      run: bundle exec rubocop -a --force-exclusion --display-cop-names {staged_files} && git add {staged_files}
 
 generators:
   parallel: true
@@ -30,8 +24,10 @@ pre-commit:
   parallel: false
   commands:
     1_linters:
-      run: lefthook run local_lint
-    2_generators:
+      run: lefthook run lint
+    2_security_audit:
+      run: lefthook run security_audit
+    3_generators:
       run: lefthook run generators
 
 pre-push:

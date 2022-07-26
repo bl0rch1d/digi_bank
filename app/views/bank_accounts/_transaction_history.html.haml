@@ -1,0 +1,35 @@
+%h2
+  = t('transaction_history.title')
+%table.table.table-hover.table-bordered.mt-4
+  %thread
+    %tr
+      %th{scope: "col"}
+        = t('transaction_history.id')
+      %th{scope: "col"}
+        = t('transaction_history.from')
+      %th{scope: "col"}
+        = t('transaction_history.to')
+      %th{scope: "col"}
+        = t('transaction_history.amount')
+      %th{scope: "col"}
+        = t('transaction_history.balance_after_transaction')
+      %th{scope: "col"}
+        = t('transaction_history.sent_at')
+  %tbody.table-group-divider
+    - @operation_result[:money_transactions].each do |money_transaction|
+      %tr{class: "#{money_transaction.bootstrap_row_color_class}"}
+        %th{scope: "row"}
+          = money_transaction.id
+        %th
+          = money_transaction.sender_email
+        %th
+          = money_transaction.recepient_email
+        %th
+          = money_transaction.transfered_amount
+        %th
+          = money_transaction.balance_after_transaction
+        %th
+          = money_transaction.created_at
+.row
+  .col
+    = render 'bank_accounts/pagination'

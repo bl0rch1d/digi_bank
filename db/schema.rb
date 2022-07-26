@@ -10,9 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_21_204656) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_24_181020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bank_accounts", force: :cascade do |t|
+    t.bigint "balance", default: 0, null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bank_accounts_on_user_id"
+  end
+
+  create_table "money_transactions", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "recepient_id", null: false
+    t.bigint "amount", null: false
+    t.bigint "sender_balance_after_transaction", null: false
+    t.bigint "recepient_balance_after_transaction", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recepient_id"], name: "index_money_transactions_on_recepient_id"
+    t.index ["sender_id"], name: "index_money_transactions_on_sender_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
@@ -23,4 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_21_204656) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "bank_accounts", "users"
+  add_foreign_key "money_transactions", "bank_accounts", column: "recepient_id"
+  add_foreign_key "money_transactions", "bank_accounts", column: "sender_id"
 end

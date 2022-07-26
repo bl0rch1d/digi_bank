@@ -1,0 +1,13 @@
+= render 'bank_accounts/header'
+
+.container.mt-5
+  .row
+    .col-4.text-center
+      %h2
+        = t('bank_account.balance')
+      %h4.mt-4
+        = @operation_result[:bank_account].usd_balance
+      %a.btn.btn-outline-dark.mt-2{href: new_money_transaction_path}
+        = t('bank_account.send_money')
+    .col-8.text-center
+      = render 'bank_accounts/transaction_history'
