@@ -15,8 +15,6 @@ class MoneyTransactionsController < ApplicationController
     else
       @contract = result[:contract]
 
-      flash.now[:alert] = result[:exception_message]
-
       render 'money_transactions/new'
     end
   end
