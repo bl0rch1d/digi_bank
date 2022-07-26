@@ -72,10 +72,6 @@ describe MoneyTransactionsController, type: :controller do
       it 'assigns contract' do
         expect(assigns(:contract)).to be_a(DigiBank::MoneyTransaction::Contract::Create)
       end
-
-      it 'renders flash alert' do
-        expect(request.flash[:alert]).to eq(I18n.t('validation_errors.validation_failed'))
-      end
     end
   end
 end
