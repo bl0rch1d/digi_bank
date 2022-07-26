@@ -5,7 +5,7 @@ module Errors
     attr_reader :errors
 
     def initialize(errors)
-      super('Validation failed')
+      super(I18n.t('validation_errors.validation_failed'))
 
       @errors = errors
     end

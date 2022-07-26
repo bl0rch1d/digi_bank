@@ -24,3 +24,4 @@ en:
   validation_errors:
     not_enough_money: Not enough money for this transaction
     user_does_not_exists: User with such email does not exists
+    validation_failed: Validation failed
