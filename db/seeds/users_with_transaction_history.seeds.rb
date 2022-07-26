@@ -16,14 +16,16 @@ USER_4_PASSWORD = 'sup3rstr0ng@passw0rd'
 
 MONEY_TRANSACTIONS_COUNT = 35
 
-FactoryBot.create(:user, :with_balance, email: USER_1_EMAIL, password: USER_1_PASSWORD)
-FactoryBot.create(:user, :with_balance, email: USER_2_EMAIL, password: USER_2_PASSWORD)
-FactoryBot.create(:user, :with_balance, email: USER_3_EMAIL, password: USER_3_PASSWORD)
-FactoryBot.create(:user, :with_balance, email: USER_4_EMAIL, password: USER_4_PASSWORD)
+user_1 = FactoryBot.create(:user, :with_balance, email: USER_1_EMAIL, password: USER_1_PASSWORD)
+user_2 = FactoryBot.create(:user, :with_balance, email: USER_2_EMAIL, password: USER_2_PASSWORD)
+user_3 = FactoryBot.create(:user, :with_balance, email: USER_3_EMAIL, password: USER_3_PASSWORD)
+user_4 = FactoryBot.create(:user, :with_balance, email: USER_4_EMAIL, password: USER_4_PASSWORD)
 
-User.all.each do |user|
+users = [user_1, user_2, user_3, user_4]
+
+users.each do |user|
   MONEY_TRANSACTIONS_COUNT.times do
-    recepient = (User.all - [user]).sample
+    recepient = (users - [user]).sample
     amount_to_transact = rand(100..100000)
 
     next if user.bank_account.balance < amount_to_transact
